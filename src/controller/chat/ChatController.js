@@ -12,11 +12,11 @@ exports.CreateChat = async (req, res) => {
 
 exports.ChatListByClient = async (req, res) => {
     try{
-        let UserDetails = JSON.parse(req.headers['UserDetails'])
-        let JoinStage1 = {$lookup: {from: 'users', localField: 'ClientId', foreignField: '_id', as: 'user'}}
+        let MatchId = req.params.MatchId
+        let JoinStage1 = {$lookup: {from: 'users', localField: 'SenterId', foreignField: '_id', as: 'user'}}
         let UnwindStage = {$unwind: '$user'}
         let data = await ChatModel.aggregate([
-            {$match: {ClientId: new ObjectId(UserDetails['user_id'])}},
+            {$match: {MatchId: new ObjectId(MatchId)}},
             JoinStage1,
             UnwindStage,
             {
@@ -32,26 +32,13 @@ exports.ChatListByClient = async (req, res) => {
                 }
             }
         ])
-        res.status(200).json({status: 'success', data: data})
 
+        res.status(200).json({status: 'success', data: data})
     }catch(err){
         res.status(200).json({status: 'failed', data: err.toString()})
     }
 }
 
-exports.ChatListByAdmin = async (req, res) => {
-    try{
-        let ClientId = req.params.ClientId;
-        let UserDetails = JSON.parse(req.headers['UserDetails'])
-        let data = await ChatModel.aggregate([
-            {$match: {ClientId: new ObjectId(ClientId), UserStatus: UserDetails['userRole']}}
-        ])
-        res.status(200).json({status: 'success', data: data})
-
-    }catch(err){
-        res.status(200).json({status: 'failed', data: err.toString()})
-    }
-}
 
 exports.deleteChatByAdmin = async (req, res) => {
     try{

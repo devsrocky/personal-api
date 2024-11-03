@@ -120,8 +120,7 @@ router.get('/SiteVisitorCountList',SiteStaticsController.SiteVisitorCountList)
 
 // Others routes
 router.post('/CreateChat',AuthVerification, ChatController.CreateChat)
-router.get('/ChatListByClient',AuthVerification, ChatController.ChatListByClient)
-router.get('/ChatListByAdmin/:ClientId',AuthVerification, ChatController.ChatListByAdmin)
+router.get('/ChatList/:MatchId',AuthVerification, ChatController.ChatListByClient)
 router.get('/deleteChatByAdmin/:DeleteId',AuthVerification, ChatController.deleteChatByAdmin)
 
 
