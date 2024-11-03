@@ -15,6 +15,7 @@ const DeliveryController = require('../controller/delivery/deliveryController')
 const BuyersController = require('../controller/Buyers/BuyersController')
 const SiteStaticsController = require('../controller/statistics/SiteStaticsController')
 const ColorController = require('../controller/other/othersController')
+const ChatController = require('../controller/chat/ChatController')
 
 // Local path
 router.post('/CreateHeroContent', AuthVerification, ThemeController.CreateHeroContent)
@@ -116,6 +117,13 @@ router.post('/acceptDeliveryByBuyer/:DeliveryId/:UserId', DeliveryController.acc
 // Dashboard routes
 router.post('/SiteVisitor/:map',SiteStaticsController.SiteVisitor)
 router.get('/SiteVisitorCountList',SiteStaticsController.SiteVisitorCountList)
+
+// Others routes
+router.post('/CreateChat',AuthVerification, ChatController.CreateChat)
+router.get('/ChatListByClient',AuthVerification, ChatController.ChatListByClient)
+router.get('/ChatListByAdmin/:ClientId',AuthVerification, ChatController.ChatListByAdmin)
+router.get('/deleteChatByAdmin/:DeleteId',AuthVerification, ChatController.deleteChatByAdmin)
+
 
 // Others routes
 router.post('/createColor', AuthVerification, ColorController.createColor)
