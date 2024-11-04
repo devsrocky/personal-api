@@ -47,7 +47,7 @@ exports.userEmailOTPVerification = async (req, res) => {
         // await DataModel.updateOne({email: UserEmail}, {profileStatus: 'approved'})
         res.status(200).json({status: 'success', message: 'OTP Verification success'})
     }else{
-        res.status(200).json({status: 'failed', message: 'It seems to be you aren\'t authorize user'})
+        res.status(200).json({status: 'Unauthorized', message: 'It seems to be you aren\'t authorize user'})
     }
 }
 
