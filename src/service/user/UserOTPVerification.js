@@ -2,10 +2,10 @@ const UserOTPVerification = async (Request, DataModel, OTPModel) => {
     try{
         let UserEmail = Request.params.email;
         let UserOTP = Request.params.otp;
-        let UserCount = await DataModel.aggregate([{$match: {email: UserEmail, OTPStatus: 'verified'}}, {$count: 'count'}])
+        let UserCount = await DataModel.aggregate([{$match: {email: UserEmail}}, {$count: 'count'}])
         let OTPMatch = await OTPModel.aggregate([{$match: {UserOTP: UserOTP}}, {$count: 'count'}])
         if(UserCount[0]['count'] === 1){
-            if(OTPMatch[0]['count']){
+            if(OTPMatch[0]['count'] === 1){
                 return true
             }
         }
