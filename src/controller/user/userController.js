@@ -31,7 +31,7 @@ exports.userProfileVerification = async (req, res) => {
     let data = await userOTPVerificationService(req, DataModel, OTPModel)
     let UserEmail = req.params.email;
     if(data === true){
-        await OTPModel.deleteOne({UserEmail: UserEmail, UserOTP: 'x-end', OTPStatus: 'verified'})
+        await OTPModel.deleteOne({UserEmail: UserEmail, OTPStatus: 'verified'})
         await DataModel.updateOne({email: UserEmail}, {profileStatus: 'approved'})
         res.status(200).json({status: 'success', message: 'Your account has been approved'})
     }else{
