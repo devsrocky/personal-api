@@ -75,7 +75,7 @@ exports.userPassReset = async (req, res) => {
     let UserEmail = req.params.email;
     let NewPassword = req.body['password']
     if(data === true){
-        await OTPModel.deleteOne({UserEmail: UserEmail, UserOTP: 'x-end', OTPStatus: 'verified'})
+        await OTPModel.deleteOne({UserEmail: UserEmail, OTPStatus: 'verified'})
         await DataModel.updateOne({password: NewPassword})
         res.status(200).json({status: 'success', message: 'New password saved'})
     }else{
