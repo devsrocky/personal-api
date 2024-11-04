@@ -1,13 +1,11 @@
-
-const userOTPVerificationService = async (Request, DataModel, OTPModel) => {
+const UserOTPVerification = async (Request, DataModel, OTPModel) => {
     try{
         let UserEmail = Request.params.email;
         let UserOTP = Request.params.otp;
-        let UserCount = await DataModel.aggregate([{$match: {email: UserEmail}}, {$count: 'count'}])
+        let UserCount = await DataModel.aggregate([{$match: {email: UserEmail, OTPStatus: 'verified'}}, {$count: 'count'}])
         let OTPMatch = await OTPModel.aggregate([{$match: {UserOTP: UserOTP}}, {$count: 'count'}])
         if(UserCount[0]['count'] === 1){
             if(OTPMatch[0]['count']){
-                await OTPModel.updateOne({UserEmail: UserEmail, UserOTP: UserOTP}, { OTPStatus: 'verified'})
                 return true
             }
         }
@@ -16,4 +14,4 @@ const userOTPVerificationService = async (Request, DataModel, OTPModel) => {
         return {status: 'failed', data: err.toString()}
     }
 }
-module.exports = userOTPVerificationService;
+module.exports = UserOTPVerification;

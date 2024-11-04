@@ -11,6 +11,7 @@ const CommonEmailVerifyService = require('../../service/common/CommonEmailVerify
 const CommonDetailsService = require('../../service/common/CommonDetailsService')
 const CommonListService = require('../../service/common/CommonListService')
 const { json } = require('body-parser')
+const UserOTPVerification = require('../../service/user/UserOTPVerification')
 
 
 
@@ -38,6 +39,18 @@ exports.userProfileVerification = async (req, res) => {
     }
 }
 
+exports.userEmailOTPVerification = async (req, res) => {
+    let data = await userOTPVerificationService(req, DataModel, OTPModel)
+    let UserEmail = req.params.email;
+    if(data === true){
+        // await OTPModel.updateOne({UserEmail: UserEmail}, { OTPStatus: 'verified'})
+        // await DataModel.updateOne({email: UserEmail}, {profileStatus: 'approved'})
+        res.status(200).json({status: 'success', message: 'OTP Verification success'})
+    }else{
+        res.status(200).json({status: 'failed', message: 'It seems to be you aren\'t authorize user'})
+    }
+}
+
 exports.userLogin = async (req, res) => {
     let data = await userLoginService(req, DataModel)
     if(data.status === "success"){
@@ -58,7 +71,7 @@ exports.userUpdate = async (req, res) => {
 }
 
 exports.userPassReset = async (req, res) => {
-    let data = await userOTPVerificationService(req, DataModel, OTPModel)
+    let data = await UserOTPVerification(req, DataModel, OTPModel)
     let UserEmail = req.params.email;
     let NewPassword = req.body['password']
     if(data === true){

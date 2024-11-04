@@ -74,6 +74,7 @@ router.get('/deleteUserAccount/:DeleteId', AuthVerification, UserController.dele
 // Buyers
 router.get('/buyerList/:Keyword', BuyersController.buyerList)
 
+router.post('/userEmailOTPVerification/:email/:otp', UserController.userEmailOTPVerification)
 router.post('/userPassReset/:email/:otp', UserController.userPassReset)
 router.post('/userLogin', UserController.userLogin)
 router.post('/userUpdate', AuthVerification, UserController.userUpdate)
