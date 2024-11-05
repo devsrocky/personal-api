@@ -75,13 +75,13 @@ exports.userPassReset = async (req, res) => {
 
         const email = req.params.email
         const otp = req.params.otp
-        const newPass = req.body['password']
+        const PostBody = req.body
         let OTPMatch = await OTPModel.aggregate([{$match: {UserOTP: otp, OTPStatus: 'verified'}}, {$count: 'count'}])
         if(OTPMatch[0]['count'] !== 1){
             res.status(200).json({status: 'Unverified', message: 'Before verified your otp'})
         }else{
             await OTPModel.deleteOne({UserOTP: otp, OTPStatus: 'verified'})
-            await DataModel.updateOne({email: email}, {password: newPass})
+            await DataModel.updateOne({email: email}, {$set: PostBody})
             res.status(200).json({status: 'success', data: 'New password saved'})
         }
 
